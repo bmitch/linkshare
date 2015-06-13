@@ -26,7 +26,7 @@ Route::get('sub/new', [
 ]);
 
 Route::post('sub/new', [
-    'middleware' => 'auth',
+    // 'middleware' => 'auth',
     'uses' => 'SubController@storesub'
 ]);
 //----------------------------------------//
