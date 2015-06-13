@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/css/app.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $sub or 'Welcome' }} | Angleslash</title>
+    <title>{{ $sub or 'Welcome' }} | Linkshare</title>
 </head>
 
 <body class="container">
@@ -26,7 +26,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url('/') }}"><Angleslash></a>
+            <a class="navbar-brand" href="{{ url('/') }}"><Linkshare></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -65,7 +65,7 @@
                 <h4 class="modal-title">Boo Yeah!</h4>
             </div>
             <div class="modal-body">
-                <h2>Join Angleslash</h2>
+                <h2>Join Linkshare</h2>
 
                 <p class="lead">In order to vote, you must be signed in!</p>
 
@@ -73,7 +73,7 @@
                             href="{{ url('/signin') }}">Login</a></div>
             </div>
             <div class="modal-footer">
-                <Angleslash>
+                <Linkshare>
             </div>
         </div>
         <!-- /.modal-content -->

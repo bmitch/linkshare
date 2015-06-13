@@ -1,5 +1,5 @@
 <?php
-$vote = angleslash\PostVote::where('user_id', Auth::id())->where('post_id', $post->id)->first();
+$vote = linkshare\PostVote::where('user_id', Auth::id())->where('post_id', $post->id)->first();
 $type = null;
 
 if (!is_null($vote)) {
