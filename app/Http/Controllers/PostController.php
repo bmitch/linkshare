@@ -6,80 +6,47 @@ use Illuminate\Http\Request;
 
 use linkshare\Http\Requests;
 use linkshare\Http\Controllers\Controller;
+use linkshare\Sub;
+use linkshare\Post;
+use linkshare\PostVote;
+use linkshare\Http\Requests\PostFormRequest;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
+    public function show($sub, $postId)
     {
-        //
+        $sub = Sub::where('name', $sub)->firstOrFail();
+        $post = Post::find($postId);
+
+        return view('post')
+            ->with('title', $post->title)
+            ->with('sub', $post->sub->name)
+            ->with('post', $post);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
+    public function frontpage()
     {
-        //
+        return view('sub')
+            ->with('title', 'Front Page')
+            ->with('posts', Post::paginate(15));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store()
+    public function displayform()
     {
-        //
+        return view('forms.submit')
+            ->with('title', 'New Post');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
+    public function storepost(PostFormRequest $request)
     {
-        //
-    }
+        $post = new Post;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $post->title = $request->get('title');
+        $post->url = $request->get('url');
+        $post->sub_id = Sub::where('name', $request->get('sub'))->first()->id;
+        $post->user_id = \Auth::id();
+        $post->save();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
+        return \Redirect::to('/');
     }
 }

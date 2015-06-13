@@ -6,80 +6,34 @@ use Illuminate\Http\Request;
 
 use linkshare\Http\Requests;
 use linkshare\Http\Controllers\Controller;
+use linkshare\Http\Requests\SubFormRequest;
+use linkshare\Sub;
 
 class SubController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
+
+    public function show($name)
     {
-        //
+        $sub = Sub::where('name', $name)->firstOrFail();
+
+        return view('sub')
+            ->with('sub', $sub->name)
+            ->with('posts', $sub->posts()->paginate(15));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
+    public function displayform()
     {
-        //
+        return view('forms.createsub')
+            ->with('title', 'Create Sub');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store()
+    public function storesub(SubFormRequest $request)
     {
-        //
-    }
+        $sub = new Sub;
+        $sub->name = $request->get('name');
+        $sub->owner_id = \Auth::id();
+        $sub->save();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
+        return \Redirect::to('r/' . $request->get('name'));
     }
 }
